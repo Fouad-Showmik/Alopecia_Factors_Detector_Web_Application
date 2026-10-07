@@ -3,12 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alopecia Factors Detector</title>
+    <title>API Test</title>
 </head>
 <body>
 
-    <h1>Alopecia Factors Detector</h1>
-    <p>Web application is under development.</p>
+    <h1>Alopecia API Test</h1>
+    <button id="testBtn">Test Prediction</button>
+
+    <pre id="result"></pre>
+
+    <script>
+        const API_URL =
+            "https://alopecia-factors-detector-2dzf.onrender.com";
+
+        document.getElementById("testBtn").addEventListener("click", async () => {
+            const data = {
+                "Hair_washing": "yes",
+                "Nutritional Deficiencies": "no",
+                "Smoking": "no",
+                "Job_role": "yes",
+                "Genetics": "yes",
+                "Stress": "yes",
+                "Libido": "no",
+                "Salary": "no",
+                "Medications & Treatments": "yes",
+                "Stay_up_late": "yes",
+                "Weight Loss": "no",
+                "Hair_grease": "yes",
+                "Province": "yes"
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/predict`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                document.getElementById("result").textContent =
+                    JSON.stringify(result, null, 2);
+
+            } catch (error) {
+                document.getElementById("result").textContent =
+                    error.toString();
+
+                console.error(error);
+            }
+        });
+    </script>
 
 </body>
 </html>

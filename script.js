@@ -30,86 +30,133 @@ const FACTORS = [
   {
     id: "Hair_washing",
     group: "Hair & scalp",
-    name: "Hair washing",
-    hint: "Your hair-washing routine"
+    name: "Hair Cleansing Practices",
+    hint: "Unusual or infrequent hair washing"
   },
   {
     id: "Hair_grease",
     group: "Hair & scalp",
-    name: "Hair grease",
-    hint: "Noticeable scalp or hair greasiness"
+    name: "Scalp Damage",
+    hint: "Excessive scalp or hair greasiness"
   },
   {
     id: "Nutritional Deficiencies",
     group: "Health & lifestyle",
-    name: "Nutritional deficiencies",
+    name: "Nutritional Deficiencies",
     hint: "Known or suspected nutritional deficiencies"
   },
   {
     id: "Smoking",
     group: "Health & lifestyle",
-    name: "Smoking",
-    hint: "Smoking or tobacco exposure"
+    name: "Tobacco Consumption",
+    hint: "Regular smoking or tobacco use"
   },
   {
     id: "Stress",
     group: "Health & lifestyle",
-    name: "Stress",
-    hint: "High or ongoing stress"
+    name: "Psychological Stress",
+    hint: "Frequent or prolonged stress"
   },
   {
     id: "Stay_up_late",
     group: "Health & lifestyle",
-    name: "Staying up late",
+    name: "Sleeping Issues",
     hint: "Frequently staying awake late at night"
   },
   {
     id: "Weight Loss",
     group: "Health & lifestyle",
-    name: "Weight loss",
+    name: "Weight Fluctuations",
     hint: "Recent or significant weight loss"
   },
   {
     id: "Genetics",
     group: "Personal factors",
-    name: "Genetics",
+    name: "Genetic Predisposition",
     hint: "Family history or genetic factors"
   },
   {
     id: "Medications & Treatments",
     group: "Personal factors",
-    name: "Medications & treatments",
+    name: "Medication Issues",
     hint: "Current medications or treatments"
   },
   {
     id: "Libido",
     group: "Personal factors",
-    name: "Libido",
-    hint: "Changes or concerns related to libido"
+    name: "Hormonal Imbalances",
+    hint: "Changes in libido or related symptoms"
   },
   {
     id: "Salary",
     group: "Background",
-    name: "Salary",
-    hint: "Your salary category"
+    name: "Financial Issues",
+    hint: "Lower or financially stressful income level"
   },
   {
     id: "Job_role",
     group: "Background",
-    name: "Job role",
-    hint: "Your current job role"
+    name: "Occupational Stress",
+    hint: "Work-related role or job conditions"
   },
   {
     id: "Province",
     group: "Background",
-    name: "Province",
-    hint: "Your province/location category"
+    name: "Environmental Factors",
+    hint: "Province or geographic location"
   }
 ];
 
 const BY_ID = Object.fromEntries(
   FACTORS.map(f => [f.id, f])
 );
+
+/*
+ * One suggestion per backend feature.
+ */
+const SUGGESTIONS = {
+  "Genetics":
+    "Discuss family history and hereditary hair-loss patterns with a dermatologist.",
+
+  "Libido":
+    "If changes persist, discuss possible hormonal or health-related factors with a healthcare professional.",
+
+  "Smoking":
+    "Consider reducing or stopping tobacco use and seek support if needed.",
+
+  "Job_role":
+    "Take regular breaks and manage work-related stress through healthy routines.",
+
+  "Medications & Treatments":
+    "Review current medications with your healthcare provider before making changes.",
+
+  "Hair_washing":
+    "Use a gentle shampoo and maintain a consistent scalp-care routine.",
+
+  "Salary":
+    "Identify financial stressors and consider practical or professional support.",
+
+  "Stay_up_late":
+    "Maintain a consistent sleep schedule and aim for adequate nightly sleep.",
+
+  "Weight Loss":
+    "Avoid rapid weight changes and maintain a balanced, nutrient-rich diet.",
+
+  "Nutritional Deficiencies":
+    "Discuss suspected deficiencies with a healthcare professional before taking supplements.",
+
+  "Hair_grease":
+    "Keep the scalp clean and avoid excessive use of heavy or irritating hair products.",
+
+  "Province":
+    "Protect your scalp from prolonged sun exposure and environmental pollutants.",
+
+  "Stress":
+    "Use regular stress-management practices such as exercise, relaxation, or mindfulness."
+};
+
+const FALLBACK_SUGGESTION =
+  "Consult a healthcare professional for personalised advice.";
 
 const SLICE_VARS = ["--c1", "--c2", "--c3"];
 
@@ -621,14 +668,8 @@ function getDisplayName(feature) {
     : feature.replaceAll("_", " ");
 }
 
-function renderResults(
-  predictionData,
-  explanationData
-) {
+function renderResults(explanationData) {
   const selectedCount = selected.size;
-
-  const prediction =
-    Number(predictionData.prediction);
 
   const features =
     (explanationData.top_features || [])
@@ -680,16 +721,14 @@ function renderResults(
     (item, i) => ({
       feature: item.feature,
       name: getDisplayName(item.feature),
-      impact: Number(item.impact_score),
+      suggestion: SUGGESTIONS[item.feature] || FALLBACK_SUGGESTION,
       share: shares[i]
     })
   );
 
-  // Prediction summary.
   $("resSub").textContent =
-    `Prediction score: ${(prediction * 100).toFixed(2)}% · ` +
-    `Based on ${selectedCount} selected factors. ` +
-    `The chart shows their relative SHAP impact.`;
+    `Based on your ${selectedCount} selected factors, ` +
+    `from the strongest contributor to the weakest.`;
 
   const pie = $("pie");
   const legend = $("legend");
@@ -838,16 +877,10 @@ function renderResults(
     const panelId =
       "panel-" + i;
 
-    const summary = h(
-      "p",
-      {
-        class: "rsum",
-        text:
-          `SHAP impact score: ${it.impact.toFixed(4)}. ` +
-          `This was one of the strongest contributing ` +
-          `features for this analysis.`
-      }
-    );
+    const summary = h("p", {
+      class: "rsum",
+      text: it.suggestion
+    });
 
     const btn = h(
       "button",
@@ -874,13 +907,7 @@ function renderResults(
             text:
               "From your selected factors"
           })
-        ]),
-
-        h("span", {
-          class: "rpct",
-          text:
-            it.impact.toFixed(4)
-        })
+        ])
       ]
     );
 
@@ -912,12 +939,12 @@ function renderResults(
         class: "rbody"
       },
       [
-        summary,
-
         h("span", {
           class: "mono",
-          text: "Interpretation"
-        })
+          text: "Suggestion"
+        }),
+
+        summary
       ]
     );
 
@@ -1003,26 +1030,12 @@ async function detect() {
 
   try {
 
-    /*
-     * Run prediction and explanation together.
-     * The explanation endpoint may take longer on Render Free.
-     */
-    const [
-      predictionData,
-      explanationData
-    ] = await Promise.all([
-      callPrediction(
+    const explanationData =
+      await callExplanation(
         Array.from(selected)
-      ),
-      callExplanation(
-        Array.from(selected)
-      )
-    ]);
+      );
 
-    renderResults(
-      predictionData,
-      explanationData
-    );
+    renderResults(explanationData);
 
     go("results");
 

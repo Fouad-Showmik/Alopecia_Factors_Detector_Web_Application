@@ -583,10 +583,10 @@ function highlight(i) {
     el.style.transform =
       j === i
         ? "translate(" +
-          el.dataset.dx +
-          "px," +
-          el.dataset.dy +
-          "px)"
+        el.dataset.dx +
+        "px," +
+        el.dataset.dy +
+        "px)"
         : "";
   });
 }

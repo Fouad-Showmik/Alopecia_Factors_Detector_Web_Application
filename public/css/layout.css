@@ -1,0 +1,61 @@
+.wrap {
+
+  width: 100%;
+
+  max-width: 72rem;
+
+  margin-inline: auto;
+
+  padding-inline: 24px;
+
+  padding-block: 40px;
+
+}
+
+
+
+.screen {
+
+  animation: rise .5s ease both
+
+}
+
+
+
+@keyframes rise {
+
+  from {
+
+    transform: translateY(10px);
+
+    opacity: .01
+
+  }
+
+
+
+  to {
+
+    transform: none;
+
+    opacity: 1
+
+  }
+
+}
+
+
+
+.mono {
+
+  font-family: var(--font-mono);
+
+  font-size: .75rem;
+
+  letter-spacing: .12em;
+
+  text-transform: uppercase;
+
+  color: var(--ink-soft)
+
+}

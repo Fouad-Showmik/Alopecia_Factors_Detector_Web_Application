@@ -1,0 +1,101 @@
+/* ---------- Buttons ---------- */
+
+.btn {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  border: 1px solid var(--line);
+
+  background: var(--surface);
+
+  color: var(--ink);
+
+  padding: 12px 20px;
+
+  border-radius: 999px;
+
+  font-weight: 600;
+
+  min-height: 48px;
+
+  transition: transform .15s, background .2s, border-color .2s
+
+}
+
+
+
+.btn:hover {
+
+  border-color: var(--accent)
+
+}
+
+
+
+.btn:active {
+
+  transform: scale(.97)
+
+}
+
+
+
+.btn.primary {
+
+  background: var(--accent);
+
+  color: var(--accent-ink);
+
+  border-color: var(--accent);
+
+  padding-inline: 28px
+
+}
+
+
+
+.btn.primary:hover {
+
+  filter: brightness(1.06)
+
+}
+
+
+
+.btn[disabled] {
+
+  opacity: .45;
+
+  cursor: not-allowed;
+
+  transform: none
+
+}
+
+
+
+.btn.quiet {
+
+  border-color: transparent;
+
+  background: transparent;
+
+  color: var(--ink-soft)
+
+}
+
+
+
+.btn.quiet:hover {
+
+  color: var(--ink);
+
+  border-color: var(--line)
+
+}

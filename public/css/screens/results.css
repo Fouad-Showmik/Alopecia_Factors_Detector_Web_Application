@@ -1,0 +1,523 @@
+/* ---------- Results ---------- */
+
+.res-head {
+
+  display: grid;
+
+  gap: 8px;
+
+  margin-bottom: 24px
+
+}
+
+
+
+.res-head h2 {
+
+  font-size: clamp(1.9rem, 6vw, 2.8rem);
+
+  font-weight: 800;
+
+  letter-spacing: -.02em
+
+}
+
+
+
+.res-head p {
+
+  color: var(--ink-soft)
+
+}
+
+
+
+.res-grid {
+
+  display: grid;
+
+  gap: 20px;
+
+  grid-template-columns: minmax(0, 1fr);
+
+  align-items: start
+
+}
+
+
+
+@media (min-width:760px) {
+
+  .res-grid {
+
+    grid-template-columns: 20rem minmax(0, 1fr)
+
+  }
+
+}
+
+
+
+.panel-card {
+
+  background: var(--surface);
+
+  border: 1px solid var(--line);
+
+  border-radius: var(--radius);
+
+  padding: 20px;
+
+  box-shadow: var(--shadow);
+
+  display: grid;
+
+  gap: 16px;
+
+  justify-items: center
+
+}
+
+
+
+.pie {
+
+  width: min(100%, 17rem);
+
+  height: auto;
+
+  overflow: visible
+
+}
+
+
+
+.pie .slice {
+
+  stroke: var(--surface);
+
+  stroke-width: 3;
+
+  stroke-linejoin: round;
+
+  cursor: pointer;
+
+  transition: transform .22s ease, opacity .22s
+
+}
+
+
+
+.pie .slice.dim {
+
+  opacity: .5
+
+}
+
+
+
+.pie text {
+
+  font-family: var(--font-display);
+
+  font-weight: 800;
+
+  font-size: 17px;
+
+  fill: var(--on-slice);
+
+  pointer-events: none;
+
+  font-variant-numeric: tabular-nums
+
+}
+
+
+
+.legend {
+
+  list-style: none;
+
+  margin: 0;
+
+  padding: 0;
+
+  display: grid;
+
+  gap: 8px;
+
+  width: 100%
+
+}
+
+
+
+.legend li {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  font-size: .92rem;
+
+  min-width: 0
+
+}
+
+
+
+.legend .dot {
+
+  flex: none;
+
+  width: 12px;
+
+  height: 12px;
+
+  border-radius: 4px
+
+}
+
+
+
+.legend .nm {
+
+  flex: 1;
+
+  min-width: 0;
+
+  overflow-wrap: anywhere
+
+}
+
+
+
+.legend .pc {
+
+  font-family: var(--font-mono);
+
+  font-variant-numeric: tabular-nums
+
+}
+
+
+
+.list {
+
+  display: grid;
+
+  gap: 12px;
+
+  min-width: 0
+
+}
+
+
+
+.rcard {
+
+  background: var(--surface);
+
+  border: 1px solid var(--line);
+
+  border-radius: var(--radius);
+
+  overflow: hidden;
+
+  transition: border-color .2s
+
+}
+
+
+
+.rcard.open {
+
+  border-color: var(--accent)
+
+}
+
+
+
+.rhead {
+
+  margin: 0
+
+}
+
+
+
+.rbtn {
+
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  background: none;
+
+  border: 0;
+
+  padding: 16px;
+
+  text-align: left
+
+}
+
+
+
+.rank {
+
+  flex: none;
+
+  width: 34px;
+
+  height: 34px;
+
+  border-radius: 50%;
+
+  display: grid;
+
+  place-items: center;
+
+  font-family: var(--font-display);
+
+  font-weight: 800;
+
+  color: var(--on-slice)
+
+}
+
+
+
+.rname {
+
+  flex: 1;
+
+  min-width: 0;
+
+  display: grid;
+
+  gap: 2px
+
+}
+
+
+
+.rname b {
+
+  font-family: var(--font-display);
+
+  font-size: 1.2rem;
+
+  font-weight: 700;
+
+  overflow-wrap: anywhere
+
+}
+
+
+
+.rname small {
+
+  color: var(--ink-soft);
+
+  font-size: .82rem
+
+}
+
+
+
+.rpct {
+
+  font-family: var(--font-mono);
+
+  font-weight: 500;
+
+  font-variant-numeric: tabular-nums
+
+}
+
+
+
+.chev {
+
+  flex: none;
+
+  width: 20px;
+
+  height: 20px;
+
+  transition: transform .25s
+
+}
+
+
+
+.rcard.open .chev {
+
+  transform: rotate(180deg)
+
+}
+
+
+
+.chev path {
+
+  stroke: var(--ink-soft);
+
+  stroke-width: 2.2;
+
+  fill: none;
+
+  stroke-linecap: round;
+
+  stroke-linejoin: round
+
+}
+
+
+
+.rpanel {
+
+  display: grid;
+
+  grid-template-rows: 0fr;
+
+  visibility: hidden;
+
+  transition: grid-template-rows .3s ease, visibility 0s .3s
+
+}
+
+
+
+.rcard.open .rpanel {
+
+  grid-template-rows: 1fr;
+
+  visibility: visible;
+
+  transition: grid-template-rows .3s ease, visibility 0s
+
+}
+
+
+
+.rpanel-in {
+
+  overflow: hidden;
+
+  min-height: 0
+
+}
+
+
+
+.rbody {
+
+  padding: 0 16px 18px;
+
+  display: grid;
+
+  gap: 14px
+
+}
+
+
+
+.rsum {
+
+  color: var(--ink-soft)
+
+}
+
+
+
+.tips {
+
+  list-style: none;
+
+  margin: 0;
+
+  padding: 0;
+
+  display: grid;
+
+  gap: 10px
+
+}
+
+
+
+.tips li {
+
+  background: var(--surface-2);
+
+  border-radius: 12px;
+
+  padding: 12px 14px;
+
+  display: grid;
+
+  gap: 2px
+
+}
+
+
+
+.tips b {
+
+  font-weight: 600
+
+}
+
+
+
+.tips span {
+
+  color: var(--ink-soft);
+
+  font-size: .92rem
+
+}
+
+
+
+.res-foot {
+
+  margin-top: 28px;
+
+  display: grid;
+
+  gap: 16px
+
+}
+
+
+
+.res-actions {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 10px
+
+}
+
+
+
+.note {
+
+  color: var(--ink-soft);
+
+  font-size: .85rem;
+
+  max-width: 40rem
+
+}
